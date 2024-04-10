@@ -3,21 +3,29 @@
 #include <vector>
 #include <algorithm>
 
-void print(std::vector <int> vec, int sz) { // Для вывода в формате правльных чисел 
+/**
+ * @brief функция для вывода в формате правильных чисел 
+ * 
+ * @param vec значение перевернутого результируещего числа
+ * @param sz размер вектора
+ */
+void print(std::vector <int> vec, int sz) { 
     for (int i = sz - 1; i >= 0; --i) {
         std::cout << vec[i];
     }
     std::cout << '\n';
 }
 
-void printRight(std::vector <int> vec, int sz) { // Для проверки вывода в том в формате, в которои вектор лежит в программе
-    for (int i = 0; i < sz; ++i) {
-        std::cout << vec[i];
-    }
-    std::cout << '\n';
-}
+/**
+ * @brief Функция проверка на то, что первое число > второго и можно вычитать
+ * 
+ * @param vec1 первое число вектор
+ * @param vec2 второе число вектор
+ * @return true если можно вычитать
+ * @return false нельзя вычитать
+ */
 
-bool test(std::vector <int> vec1, std::vector <int> vec2) { // Проверка на то, что первое число > второго и можно вычитать
+bool test(std::vector <int> vec1, std::vector <int> vec2) { 
     if (vec1.size() > vec2.size()) return true;
     else if (vec1.size() < vec2.size()) return false;
     else {
@@ -29,8 +37,13 @@ bool test(std::vector <int> vec1, std::vector <int> vec2) { // Проверка 
     return true;
 }
 
-std::vector <int> cleaner(std::vector <int> vec) { // Для избавления от незначащих нулей
-    //printRight(vec, vec.size());
+/**
+ * @brief функция для избавления от незначащих нулей
+ * 
+ * @param vec вектор число
+ * @return std::vector <int> "чистый" вектор
+ */
+std::vector <int> cleaner(std::vector <int> vec) { 
     for (int i = vec.size() - 1; i >= 0; --i) {
         if (vec[i] == 0) vec.pop_back();
         else break;
@@ -38,7 +51,16 @@ std::vector <int> cleaner(std::vector <int> vec) { // Для избавлени�
     }
     return vec;
 }
-std::vector <int> vecsum(std::vector <int> vec1, std::vector <int> vec2, int sz) { // Сумма число-векторов для возведения 2 в нужную степень
+
+/**
+ * @brief функция суммирования для возведения в степень 
+ * 
+ * @param vec1 вектор 1
+ * @param vec2 вектор 2
+ * @param sz размер вектора
+ * @return std::vector <int> результирующий вектор в степени
+ */
+std::vector <int> vecsum(std::vector <int> vec1, std::vector <int> vec2, int sz) { 
     std::vector <int> resultvector; // Число-вектор с результатом
     resultvector.push_back(0);
     resultvector[0] = (vec1[0] + vec2[0]) % 10;
@@ -53,8 +75,17 @@ std::vector <int> vecsum(std::vector <int> vec1, std::vector <int> vec2, int sz)
     return resultvector;
 }
 
+/**
+ * @brief функция для нахождения разности вектором
+ * 
+ * @param vec1 число вектор в степени
+ * @param vec2 число вектор в степени
+ * @param maxs максимальный размер бОльшего вектора
+ * @param mins минимальный размер меньшего вектора
+ * @return std::vector <int> разность векторов
+ */
 
-std::vector <int> vecsub(std::vector <int> vec1, std::vector <int> vec2, int maxs, int mins) { // Разность число-векторов 
+std::vector <int> vecsub(std::vector <int> vec1, std::vector <int> vec2, int maxs, int mins) {  
     std::vector <int> resultvector; // Число-вектор с результатом
     resultvector.push_back(0);
     if (test(vec1, vec2)) {
@@ -94,11 +125,13 @@ int main() {
     std::cin >> x >> y;
     std::cout << "\n";
     std::vector <int> vec1 = { 2 }, vec2 = { 2 };
+
     for (int i = 0; i < x - 1; ++i) {
         vec1 = vecsum(vec1, vec1, vec1.size());
     }
     print(vec1, vec1.size());
     std::cout << "\n";
+
     for (int i = 0; i < y - 1; ++i) {
         vec2 = vecsum(vec2, vec2, vec2.size());
     }
