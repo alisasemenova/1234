@@ -60,8 +60,9 @@ std::vector <int> cleaner(std::vector <int> vec) {
  * @param sz размер вектора
  * @return std::vector <int> результирующий вектор в степени
  */
-std::vector <int> vecsum(std::vector <int> vec1, std::vector <int> vec2, int sz) { 
+std::vector <int> vecsum(std::vector <int> vec1, std::vector <int> vec2) { 
     std::vector <int> resultvector; // Число-вектор с результатом
+    int sz = vec1.size();
     resultvector.push_back(0);
     resultvector[0] = (vec1[0] + vec2[0]) % 10;
     int md = (vec1[0] + vec2[0]) / 10; // Переменная остатка
@@ -88,33 +89,32 @@ std::vector <int> vecsum(std::vector <int> vec1, std::vector <int> vec2, int sz)
 std::vector <int> vecsub(std::vector <int> vec1, std::vector <int> vec2, int maxs, int mins) {  
     std::vector <int> resultvector; // Число-вектор с результатом
     resultvector.push_back(0);
-    if (test(vec1, vec2)) {
-        for (int i = 0; i < mins; ++i) { // Вычитаем из 1-ого числа 2-е 
-            resultvector.push_back(0);
-            resultvector[i] = (vec1[i] - vec2[i]);
-            if (resultvector[i] < 0) {
-                for (int j = i + 1; j < maxs; j++) {
-                    if (vec1[j] > 0) {
-                        vec1[j] -= 1;
-                        for (int k = j - 1; k > i; --k) {
-                            vec1[k] += 9;
-                        }
-                        resultvector[i] += 10;
-                        break;
+    if(!test(vec1, vec2))
+    {
+        resultvector[0] = -1;
+        return resultvector;
+    
+    for (int i = 0; i < mins; ++i) { // Вычитаем из 1-ого числа 2-е 
+        resultvector.push_back(0);
+        resultvector[i] = (vec1[i] - vec2[i]);
+        if (resultvector[i] < 0) {
+            for (int j = i + 1; j < maxs; j++) {
+                if (vec1[j] > 0) {
+                    vec1[j] -= 1;
+                    for (int k = j - 1; k > i; --k) {
+                        vec1[k] += 9;
                     }
+                    resultvector[i] += 10;
+                    break;
                 }
             }
         }
-        resultvector = cleaner(resultvector);
-        for (int i = mins; i < maxs; i++) { // Переписываем элементы 1-го числа, которые не задело вычитание
-            resultvector.push_back(vec1[i]);
-        }
-        return cleaner(resultvector);
     }
-    else {
-        resultvector[0] = -1;
-        return resultvector;
+    resultvector = cleaner(resultvector);
+    for (int i = mins; i < maxs; i++) { // Переписываем элементы 1-го числа, которые не задело вычитание
+        resultvector.push_back(vec1[i]);
     }
+    return cleaner(resultvector);
 }
 
 
@@ -126,14 +126,14 @@ int main() {
     std::cout << "\n";
     std::vector <int> vec1 = { 2 }, vec2 = { 2 };
 
-    for (int i = 0; i < x - 1; ++i) {
-        vec1 = vecsum(vec1, vec1, vec1.size());
+    for (int i = 0; i < x - 1; ++i) { //возводим первый вектор в степень
+        vec1 = vecsum(vec1, vec1);
     }
     print(vec1, vec1.size());
     std::cout << "\n";
 
-    for (int i = 0; i < y - 1; ++i) {
-        vec2 = vecsum(vec2, vec2, vec2.size());
+    for (int i = 0; i < y - 1; ++i) { //возводим второй вектор в степень
+        vec2 = vecsum(vec2, vec2);
     }
     print(vec2, vec2.size());
     std::cout << "\n";
